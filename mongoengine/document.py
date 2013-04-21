@@ -240,8 +240,11 @@ class Document(BaseDocument):
                 if removals:
                     collection.update(select_dict, {"$unset": removals},
                         upsert=upsert, safe=safe, **write_options)
-
-            warn_cascade = not cascade and 'cascade' not in self._meta
+            try:
+                  warn_cascade = not cascade and 'cascade' not in self._meta
+            except:
+                  warn_cascade=True           
+                           
             cascade = (self._meta.get('cascade', True)
                        if cascade is None else cascade)
             if cascade:
